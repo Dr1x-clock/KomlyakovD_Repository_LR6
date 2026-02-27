@@ -326,11 +326,74 @@ namespace KomlyakovD_LR3_project
 
         static void Zadanie4()
         {
-        Console.Clear();
-
-
-        Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
-        Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("=== Карточная игра ===\n");
+            
+            try
+            {
+                Console.WriteLine("Введите 3 карты первого игрока (числа от 1 до 9 через пробел):");
+                string[] firstInput = Console.ReadLine().Split();
+                
+                Console.WriteLine("Введите 3 карты второго игрока (числа от 1 до 9 через пробел):");
+                string[] secondInput = Console.ReadLine().Split();
+                
+                Queue<int> firstPlayer = new Queue<int>();
+                Queue<int> secondPlayer = new Queue<int>();
+                
+                for (int i = 0; i < 3; i++)
+                {
+                    firstPlayer.Enqueue(int.Parse(firstInput[i]));
+                    secondPlayer.Enqueue(int.Parse(secondInput[i]));
+                }
+                
+                int moves = 0;
+                bool gameOver = false;
+                
+                while (moves < 100 && !gameOver)
+                {
+                    if (firstPlayer.Count == 0)
+                    {
+                        Console.WriteLine($"second {moves}");
+                        gameOver = true;
+                        break;
+                    }
+                    
+                    if (secondPlayer.Count == 0)
+                    {
+                        Console.WriteLine($"first {moves}");
+                        gameOver = true;
+                        break;
+                    }
+                    
+                    int firstCard = firstPlayer.Dequeue();
+                    int secondCard = secondPlayer.Dequeue();
+                    
+                    if (firstCard > secondCard)
+                    {
+                        firstPlayer.Enqueue(firstCard);
+                        firstPlayer.Enqueue(secondCard);
+                    }
+                    else
+                    {
+                        secondPlayer.Enqueue(secondCard);
+                        secondPlayer.Enqueue(firstCard);
+                    }
+                    
+                    moves++;
+                }
+                
+                if (!gameOver)
+                {
+                    Console.WriteLine("botva");
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка ввода данных");
+            }
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
         }
 
         static void Zadanie5()
