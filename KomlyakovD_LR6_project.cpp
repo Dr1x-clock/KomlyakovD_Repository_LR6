@@ -453,11 +453,58 @@ namespace KomlyakovD_LR3_project
 
         static void Zadanie6()
         {
-        Console.Clear();
-
-
-        Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
-        Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("=== Минимальный вес еды ===\n");
+            
+            try
+            {
+                Console.WriteLine("Введите размеры таблицы N и M (от 1 до 20):");
+                string[] size = Console.ReadLine().Split();
+                int N = int.Parse(size[0]);
+                int M = int.Parse(size[1]);
+                
+                int[,] grid = new int[N, M];
+                
+                Console.WriteLine($"Введите {N} строк по {M} чисел:");
+                for (int i = 0; i < N; i++)
+                {
+                    string[] row = Console.ReadLine().Split();
+                    for (int j = 0; j < M; j++)
+                    {
+                        grid[i, j] = int.Parse(row[j]);
+                    }
+                }
+                
+                int[,] dp = new int[N, M];
+                dp[0, 0] = grid[0, 0];
+                
+                for (int j = 1; j < M; j++)
+                {
+                    dp[0, j] = dp[0, j - 1] + grid[0, j];
+                }
+                
+                for (int i = 1; i < N; i++)
+                {
+                    dp[i, 0] = dp[i - 1, 0] + grid[i, 0];
+                }
+                
+                for (int i = 1; i < N; i++)
+                {
+                    for (int j = 1; j < M; j++)
+                    {
+                        dp[i, j] = Math.Min(dp[i - 1, j], dp[i, j - 1]) + grid[i, j];
+                    }
+                }
+                
+                Console.WriteLine($"\nМинимальный вес еды: {dp[N - 1, M - 1]}");
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка ввода данных");
+            }
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
         }
 
         static void Zadanie7()
