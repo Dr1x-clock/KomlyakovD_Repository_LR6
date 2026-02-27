@@ -143,11 +143,78 @@ namespace KomlyakovD_LR3_project
         }
         static void Zadanie2()
         {
-        Console.Clear();
-
-
-        Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
-        Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("=== Работа с очередью ===\n");
+            Console.WriteLine("Команды: push n, pop, front, size, clear, exit\n");
+            
+            Queue<int> queue = new Queue<int>();
+            bool isRunning = true;
+            
+            while (isRunning)
+            {
+                Console.Write("> ");
+                string input = Console.ReadLine();
+                string[] parts = input.Split(' ');
+                string command = parts[0].ToLower();
+                
+                switch (command)
+                {
+                    case "push":
+                        if (parts.Length > 1 && int.TryParse(parts[1], out int n))
+                        {
+                            queue.Enqueue(n);
+                            Console.WriteLine("ok");
+                        }
+                        else
+                        {
+                            Console.WriteLine("error");
+                        }
+                        break;
+                        
+                    case "pop":
+                        if (queue.Count > 0)
+                        {
+                            Console.WriteLine(queue.Dequeue());
+                        }
+                        else
+                        {
+                            Console.WriteLine("error");
+                        }
+                        break;
+                        
+                    case "front":
+                        if (queue.Count > 0)
+                        {
+                            Console.WriteLine(queue.Peek());
+                        }
+                        else
+                        {
+                            Console.WriteLine("error");
+                        }
+                        break;
+                        
+                    case "size":
+                        Console.WriteLine(queue.Count);
+                        break;
+                        
+                    case "clear":
+                        queue.Clear();
+                        Console.WriteLine("ok");
+                        break;
+                        
+                    case "exit":
+                        Console.WriteLine("bye");
+                        isRunning = false;
+                        break;
+                        
+                    default:
+                        Console.WriteLine("error");
+                        break;
+                }
+            }
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
         }
 
 
