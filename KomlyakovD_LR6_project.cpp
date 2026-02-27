@@ -398,11 +398,57 @@ namespace KomlyakovD_LR3_project
 
         static void Zadanie5()
         {
-        Console.Clear();
+            Console.Clear();
+            Console.WriteLine("=== Класс Rectangle ===\n");
+            
+            try
+            {
+                Console.WriteLine("Введите ширину и высоту прямоугольника (от 1 до 100):");
+                string[] input = Console.ReadLine().Split();
+                
+                int width = int.Parse(input[0]);
+                int height = int.Parse(input[1]);
+                
+                Rectangle rect = new Rectangle(width, height);
+                
+                Console.WriteLine($"\nПлощадь: {rect.GetArea()}");
+                Console.WriteLine($"Периметр: {rect.GetPerimeter()}");
+                Console.WriteLine($"Описание: {rect.ToString()}");
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка ввода данных");
+            }
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
+        }
 
-
-        Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
-        Console.ReadKey();
+        public class Rectangle
+        {
+            public int Width { get; set; }
+            public int Height { get; set; }
+            
+            public Rectangle(int width, int height)
+            {
+                Width = width;
+                Height = height;
+            }
+            
+            public int GetArea()
+            {
+                return Width * Height;
+            }
+            
+            public int GetPerimeter()
+            {
+                return 2 * (Width + Height);
+            }
+            
+            public override string ToString()
+            {
+                return $"Rectangle {Width}x{Height}";
+            }
         }
 
         static void Zadanie6()
