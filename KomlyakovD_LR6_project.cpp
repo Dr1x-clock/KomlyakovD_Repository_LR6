@@ -220,11 +220,108 @@ namespace KomlyakovD_LR3_project
 
         static void Zadanie3()
         {
-        Console.Clear();
-
-
-        Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
-        Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("=== Решение уравнений ===\n");
+            Console.WriteLine("Введите коэффициенты уравнения (от 1 до 3 чисел через пробел):");
+            
+            string input = Console.ReadLine();
+            string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            double[] coefficients = new double[parts.Length];
+            
+            for (int i = 0; i < parts.Length; i++)
+            {
+                coefficients[i] = double.Parse(parts[i]);
+            }
+            
+            double[] Solve(params double[] coeffs)
+            {
+                if (coeffs.Length == 3)
+                {
+                    double a = coeffs[0];
+                    double b = coeffs[1];
+                    double c = coeffs[2];
+                    
+                    if (Math.Abs(a) < 1e-10)
+                    {
+                        if (Math.Abs(b) < 1e-10)
+                        {
+                            return new double[0];
+                        }
+                        return new double[] { -c / b };
+                    }
+                    
+                    double discriminant = b * b - 4 * a * c;
+                    
+                    if (discriminant < -1e-10)
+                    {
+                        return new double[0];
+                    }
+                    
+                    if (Math.Abs(discriminant) < 1e-10)
+                    {
+                        double root = -b / (2 * a);
+                        return new double[] { root };
+                    }
+                    
+                    double sqrtDiscriminant = Math.Sqrt(discriminant);
+                    double root1 = (-b - sqrtDiscriminant) / (2 * a);
+                    double root2 = (-b + sqrtDiscriminant) / (2 * a);
+                    
+                    if (root1 < root2)
+                    {
+                        return new double[] { root1, root2 };
+                    }
+                    return new double[] { root2, root1 };
+                }
+                
+                if (coeffs.Length == 2)
+                {
+                    double b = coeffs[0];
+                    double c = coeffs[1];
+                    
+                    if (Math.Abs(b) < 1e-10)
+                    {
+                        return new double[0];
+                    }
+                    
+                    return new double[] { -c / b };
+                }
+                
+                if (coeffs.Length == 1)
+                {
+                    double c = coeffs[0];
+                    
+                    if (Math.Abs(c) < 1e-10)
+                    {
+                        return new double[] { 0 };
+                    }
+                    
+                    return new double[0];
+                }
+                
+                return new double[0];
+            }
+            
+            void Print(params double[] roots)
+            {
+                if (roots.Length == 0)
+                {
+                    Console.WriteLine();
+                    return;
+                }
+                
+                for (int i = 0; i < roots.Length; i++)
+                {
+                    Console.Write(roots[i] + " ");
+                }
+                Console.WriteLine();
+            }
+            
+            double[] roots = Solve(coefficients);
+            Print(roots);
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
         }
 
         static void Zadanie4()
