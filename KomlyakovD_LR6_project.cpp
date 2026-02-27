@@ -66,13 +66,81 @@ namespace KomlyakovD_LR3_project
 
         static void Zadanie1()
         {
-        Console.Clear();
-
-
-        Console.WriteLine("\nНажмите любую клавишу для возврата в меню.");
-        Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("=== Лайнландия - одномерный мир ===\n");
+            
+            try
+            {
+                Console.Write("Введите количество городов N (2 ≤ N ≤ 100): ");
+                int N = int.Parse(Console.ReadLine());
+                
+                if (N < 2 || N > 100)
+                {
+                    Console.WriteLine("Ошибка: N должно быть от 2 до 100!");
+                    Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+                    Console.ReadKey();
+                    return;
+                }
+                
+                Console.WriteLine($"Введите {N} чисел - цены проживания в городах (от 0 до 10^9):");
+                string[] input = Console.ReadLine().Split();
+                
+                if (input.Length != N)
+                {
+                    Console.WriteLine($"Ошибка: нужно ввести ровно {N} чисел!");
+                    Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+                    Console.ReadKey();
+                    return;
+                }
+                
+                long[] prices = new long[N];
+                for (int i = 0; i < N; i++)
+                {
+                    prices[i] = long.Parse(input[i]);
+                    if (prices[i] < 0 || prices[i] > 1000000000)
+                    {
+                        Console.WriteLine("Ошибка: цена должна быть от 0 до 10^9!");
+                        Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+                        Console.ReadKey();
+                        return;
+                    }
+                }
+                
+                int[] result = new int[N];
+                
+                for (int i = 0; i < N; i++)
+                {
+                    result[i] = -1;
+                    
+                    for (int j = i + 1; j < N; j++)
+                    {
+                        if (prices[j] < prices[i])
+                        {
+                            result[i] = j;
+                            break;
+                        }
+                    }
+                }
+                
+                Console.WriteLine("\nРезультат (для каждого города номер города переселения):");
+                for (int i = 0; i < N; i++)
+                {
+                    Console.Write(result[i] + " ");
+                }
+                Console.WriteLine();
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Ошибка: введены некорректные данные!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
         }
-
         static void Zadanie2()
         {
         Console.Clear();
