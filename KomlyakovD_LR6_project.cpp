@@ -509,13 +509,82 @@ namespace KomlyakovD_LR3_project
 
         static void Zadanie7()
         {
-        Console.Clear();
-
-
-        Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
-        Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("=== Компоненты связности графа ===\n");
+            
+            try
+            {
+                Console.WriteLine("Введите количество вершин N и количество ребер M:");
+                string[] input = Console.ReadLine().Split();
+                int N = int.Parse(input[0]);
+                int M = int.Parse(input[1]);
+                
+                List<int>[] graph = new List<int>[N + 1];
+                for (int i = 1; i <= N; i++)
+                {
+                    graph[i] = new List<int>();
+                }
+                
+                Console.WriteLine($"Введите {M} ребер (номера вершин i и j через пробел):");
+                for (int k = 0; k < M; k++)
+                {
+                    string[] edge = Console.ReadLine().Split();
+                    int i = int.Parse(edge[0]);
+                    int j = int.Parse(edge[1]);
+                    graph[i].Add(j);
+                    graph[j].Add(i);
+                }
+                
+                bool[] visited = new bool[N + 1];
+                List<List<int>> components = new List<List<int>>();
+                
+                for (int start = 1; start <= N; start++)
+                {
+                    if (!visited[start])
+                    {
+                        List<int> component = new List<int>();
+                        Queue<int> queue = new Queue<int>();
+                        
+                        queue.Enqueue(start);
+                        visited[start] = true;
+                        
+                        while (queue.Count > 0)
+                        {
+                            int vertex = queue.Dequeue();
+                            component.Add(vertex);
+                            
+                            foreach (int neighbor in graph[vertex])
+                            {
+                                if (!visited[neighbor])
+                                {
+                                    visited[neighbor] = true;
+                                    queue.Enqueue(neighbor);
+                                }
+                            }
+                        }
+                        
+                        components.Add(component);
+                    }
+                }
+                
+                Console.WriteLine($"\nКоличество компонент связности: {components.Count}");
+                Console.WriteLine("\nКомпоненты связности:");
+                
+                for (int i = 0; i < components.Count; i++)
+                {
+                    Console.WriteLine($"Компонента {i + 1}:");
+                    Console.WriteLine($"Количество вершин: {components[i].Count}");
+                    Console.WriteLine($"Вершины: {string.Join(" ", components[i])}");
+                    Console.WriteLine();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка ввода данных");
+            }
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
         }
-
-        
     }
 }
