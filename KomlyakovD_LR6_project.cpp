@@ -55,8 +55,11 @@ namespace KomlyakovD_LR3_project
                     case "7":
                         Zadanie7();
                         break;
+                    case "8":
+                        Zadanie8();
+                        break;
                     default:
-                        Console.WriteLine("Некорректный выбор! Введите число от 0 до 7");
+                        Console.WriteLine("Некорректный выбор! Введите число от 0 до 8");
                         Console.WriteLine("Нажмите любую клавишу для продолжения...");
                         Console.ReadKey();
                         break;
@@ -575,6 +578,124 @@ namespace KomlyakovD_LR3_project
                     Console.WriteLine($"Компонента {i + 1}:");
                     Console.WriteLine($"Количество вершин: {components[i].Count}");
                     Console.WriteLine($"Вершины: {string.Join(" ", components[i])}");
+                    Console.WriteLine();
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Ошибка ввода данных");
+            }
+            
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+            Console.ReadKey();
+        }
+
+        static void Zadanie8()
+        {
+            Console.Clear();
+            Console.WriteLine("=== Кафе и купоны ===\n");
+            
+            try
+            {
+                Console.WriteLine("Введите количество дней N (0-100):");
+                int N = int.Parse(Console.ReadLine());
+                
+                int[] prices = new int[N + 1];
+                for (int i = 1; i <= N; i++)
+                {
+                    Console.Write($"День {i}: ");
+                    prices[i] = int.Parse(Console.ReadLine());
+                }
+                
+                int[,] dp = new int[N + 2, N + 2];
+                bool[,] used = new bool[N + 2, N + 2];
+                
+                for (int i = 0; i <= N + 1; i++)
+                {
+                    for (int j = 0; j <= N + 1; j++)
+                    {
+                        dp[i, j] = int.MaxValue / 2;
+                    }
+                }
+                
+                dp[0, 0] = 0;
+                
+                for (int i = 1; i <= N; i++)
+                {
+                    for (int j = 0; j <= i; j++)
+                    {
+                        if (dp[i - 1, j] < int.MaxValue / 2)
+                        {
+                            if (j > 0 && dp[i - 1, j] < dp[i, j - 1])
+                            {
+                                dp[i, j - 1] = dp[i - 1, j];
+                                used[i, j - 1] = true;
+                            }
+                            
+                            if (prices[i] > 100)
+                            {
+                                if (dp[i - 1, j] + prices[i] < dp[i, j + 1])
+                                {
+                                    dp[i, j + 1] = dp[i - 1, j] + prices[i];
+                                    used[i, j + 1] = false;
+                                }
+                            }
+                            else
+                            {
+                                if (dp[i - 1, j] + prices[i] < dp[i, j])
+                                {
+                                    dp[i, j] = dp[i - 1, j] + prices[i];
+                                    used[i, j] = false;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                int minCost = int.MaxValue;
+                int bestK1 = -1;
+                
+                for (int j = 0; j <= N; j++)
+                {
+                    if (dp[N, j] < minCost || (dp[N, j] == minCost && j > bestK1))
+                    {
+                        minCost = dp[N, j];
+                        bestK1 = j;
+                    }
+                }
+                
+                List<int> couponDays = new List<int>();
+                int currentJ = bestK1;
+                
+                for (int i = N; i >= 1; i--)
+                {
+                    if (used[i, currentJ])
+                    {
+                        couponDays.Add(i);
+                        currentJ++;
+                    }
+                    else
+                    {
+                        if (prices[i] > 100)
+                        {
+                            currentJ--;
+                        }
+                    }
+                }
+                
+                couponDays.Sort();
+                
+                Console.WriteLine($"\nМинимальная сумма: {minCost}");
+                Console.WriteLine($"Неиспользовано купонов: {bestK1}");
+                Console.WriteLine($"Использовано купонов: {couponDays.Count}");
+                
+                if (couponDays.Count > 0)
+                {
+                    Console.WriteLine("Дни использования купонов:");
+                    foreach (int day in couponDays)
+                    {
+                        Console.Write(day + " ");
+                    }
                     Console.WriteLine();
                 }
             }
