@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace KomlyakovD_LR3_project
+namespace KomlyakovD_LR6_project
 {
     public class Program
     {
@@ -22,6 +22,7 @@ namespace KomlyakovD_LR3_project
                 Console.WriteLine("5: Работа с классом Rectangle ");
                 Console.WriteLine("6: Минимальный вес еды");
                 Console.WriteLine("7: Неориентированный невзвешенный граф");
+                Console.WriteLine("8: Кафе и купоны");
                 Console.WriteLine("0: Выход из программы");
                 Console.Write("Введите ваш выбор: ");
 
@@ -71,12 +72,12 @@ namespace KomlyakovD_LR3_project
         {
             Console.Clear();
             Console.WriteLine("=== Лайнландия - одномерный мир ===\n");
-            
+
             try
             {
-                Console.Write("Введите количество городов N (2 ≤ N ≤ 100): ");
+                Console.Write("Введите количество городов N (2 <= N <= 100): ");
                 int N = int.Parse(Console.ReadLine());
-                
+
                 if (N < 2 || N > 100)
                 {
                     Console.WriteLine("Ошибка: N должно быть от 2 до 100!");
@@ -84,10 +85,10 @@ namespace KomlyakovD_LR3_project
                     Console.ReadKey();
                     return;
                 }
-                
+
                 Console.WriteLine($"Введите {N} чисел - цены проживания в городах (от 0 до 10^9):");
                 string[] input = Console.ReadLine().Split();
-                
+
                 if (input.Length != N)
                 {
                     Console.WriteLine($"Ошибка: нужно ввести ровно {N} чисел!");
@@ -95,7 +96,7 @@ namespace KomlyakovD_LR3_project
                     Console.ReadKey();
                     return;
                 }
-                
+
                 long[] prices = new long[N];
                 for (int i = 0; i < N; i++)
                 {
@@ -108,13 +109,13 @@ namespace KomlyakovD_LR3_project
                         return;
                     }
                 }
-                
+
                 int[] result = new int[N];
-                
+
                 for (int i = 0; i < N; i++)
                 {
                     result[i] = -1;
-                    
+
                     for (int j = i + 1; j < N; j++)
                     {
                         if (prices[j] < prices[i])
@@ -124,7 +125,7 @@ namespace KomlyakovD_LR3_project
                         }
                     }
                 }
-                
+
                 Console.WriteLine("\nРезультат (для каждого города номер города переселения):");
                 for (int i = 0; i < N; i++)
                 {
@@ -140,7 +141,7 @@ namespace KomlyakovD_LR3_project
             {
                 Console.WriteLine($"Ошибка: {ex.Message}");
             }
-            
+
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
         }
@@ -149,17 +150,17 @@ namespace KomlyakovD_LR3_project
             Console.Clear();
             Console.WriteLine("=== Работа с очередью ===\n");
             Console.WriteLine("Команды: push n, pop, front, size, clear, exit\n");
-            
+
             Queue<int> queue = new Queue<int>();
             bool isRunning = true;
-            
+
             while (isRunning)
             {
                 Console.Write("> ");
                 string input = Console.ReadLine();
                 string[] parts = input.Split(' ');
                 string command = parts[0].ToLower();
-                
+
                 switch (command)
                 {
                     case "push":
@@ -173,7 +174,7 @@ namespace KomlyakovD_LR3_project
                             Console.WriteLine("error");
                         }
                         break;
-                        
+
                     case "pop":
                         if (queue.Count > 0)
                         {
@@ -184,7 +185,7 @@ namespace KomlyakovD_LR3_project
                             Console.WriteLine("error");
                         }
                         break;
-                        
+
                     case "front":
                         if (queue.Count > 0)
                         {
@@ -195,27 +196,27 @@ namespace KomlyakovD_LR3_project
                             Console.WriteLine("error");
                         }
                         break;
-                        
+
                     case "size":
                         Console.WriteLine(queue.Count);
                         break;
-                        
+
                     case "clear":
                         queue.Clear();
                         Console.WriteLine("ok");
                         break;
-                        
+
                     case "exit":
                         Console.WriteLine("bye");
                         isRunning = false;
                         break;
-                        
+
                     default:
                         Console.WriteLine("error");
                         break;
                 }
             }
-            
+
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
         }
@@ -226,16 +227,16 @@ namespace KomlyakovD_LR3_project
             Console.Clear();
             Console.WriteLine("=== Решение уравнений ===\n");
             Console.WriteLine("Введите коэффициенты уравнения (от 1 до 3 чисел через пробел):");
-            
+
             string input = Console.ReadLine();
-            string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            string[] parts = input.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             double[] coefficients = new double[parts.Length];
-            
+
             for (int i = 0; i < parts.Length; i++)
             {
                 coefficients[i] = double.Parse(parts[i]);
             }
-            
+
             double[] Solve(params double[] coeffs)
             {
                 if (coeffs.Length == 3)
@@ -243,7 +244,7 @@ namespace KomlyakovD_LR3_project
                     double a = coeffs[0];
                     double b = coeffs[1];
                     double c = coeffs[2];
-                    
+
                     if (Math.Abs(a) < 1e-10)
                     {
                         if (Math.Abs(b) < 1e-10)
@@ -252,77 +253,77 @@ namespace KomlyakovD_LR3_project
                         }
                         return new double[] { -c / b };
                     }
-                    
+
                     double discriminant = b * b - 4 * a * c;
-                    
+
                     if (discriminant < -1e-10)
                     {
                         return new double[0];
                     }
-                    
+
                     if (Math.Abs(discriminant) < 1e-10)
                     {
                         double root = -b / (2 * a);
                         return new double[] { root };
                     }
-                    
+
                     double sqrtDiscriminant = Math.Sqrt(discriminant);
                     double root1 = (-b - sqrtDiscriminant) / (2 * a);
                     double root2 = (-b + sqrtDiscriminant) / (2 * a);
-                    
+
                     if (root1 < root2)
                     {
                         return new double[] { root1, root2 };
                     }
                     return new double[] { root2, root1 };
                 }
-                
+
                 if (coeffs.Length == 2)
                 {
                     double b = coeffs[0];
                     double c = coeffs[1];
-                    
+
                     if (Math.Abs(b) < 1e-10)
                     {
                         return new double[0];
                     }
-                    
+
                     return new double[] { -c / b };
                 }
-                
+
                 if (coeffs.Length == 1)
                 {
                     double c = coeffs[0];
-                    
+
                     if (Math.Abs(c) < 1e-10)
                     {
                         return new double[] { 0 };
                     }
-                    
+
                     return new double[0];
                 }
-                
+
                 return new double[0];
             }
-            
-            void Print(params double[] roots)
+
+            void Print(params double[] roots_)
             {
-                if (roots.Length == 0)
+                if (roots_.Length == 0)
                 {
                     Console.WriteLine();
                     return;
                 }
-                
-                for (int i = 0; i < roots.Length; i++)
+
+                for (int i = 0; i < roots_.Length; i++)
                 {
-                    Console.Write(roots[i] + " ");
+                    Console.Write(roots_[i] + " ");
                 }
                 Console.WriteLine();
             }
-            
+
             double[] roots = Solve(coefficients);
             Print(roots);
-            
+
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
         }
@@ -331,27 +332,27 @@ namespace KomlyakovD_LR3_project
         {
             Console.Clear();
             Console.WriteLine("=== Карточная игра ===\n");
-            
+
             try
             {
                 Console.WriteLine("Введите 3 карты первого игрока (числа от 1 до 9 через пробел):");
                 string[] firstInput = Console.ReadLine().Split();
-                
+
                 Console.WriteLine("Введите 3 карты второго игрока (числа от 1 до 9 через пробел):");
                 string[] secondInput = Console.ReadLine().Split();
-                
+
                 Queue<int> firstPlayer = new Queue<int>();
                 Queue<int> secondPlayer = new Queue<int>();
-                
+
                 for (int i = 0; i < 3; i++)
                 {
                     firstPlayer.Enqueue(int.Parse(firstInput[i]));
                     secondPlayer.Enqueue(int.Parse(secondInput[i]));
                 }
-                
+
                 int moves = 0;
                 bool gameOver = false;
-                
+
                 while (moves < 100 && !gameOver)
                 {
                     if (firstPlayer.Count == 0)
@@ -360,17 +361,17 @@ namespace KomlyakovD_LR3_project
                         gameOver = true;
                         break;
                     }
-                    
+
                     if (secondPlayer.Count == 0)
                     {
                         Console.WriteLine($"first {moves}");
                         gameOver = true;
                         break;
                     }
-                    
+
                     int firstCard = firstPlayer.Dequeue();
                     int secondCard = secondPlayer.Dequeue();
-                    
+
                     if (firstCard > secondCard)
                     {
                         firstPlayer.Enqueue(firstCard);
@@ -381,10 +382,10 @@ namespace KomlyakovD_LR3_project
                         secondPlayer.Enqueue(secondCard);
                         secondPlayer.Enqueue(firstCard);
                     }
-                    
+
                     moves++;
                 }
-                
+
                 if (!gameOver)
                 {
                     Console.WriteLine("botva");
@@ -394,7 +395,7 @@ namespace KomlyakovD_LR3_project
             {
                 Console.WriteLine("Ошибка ввода данных");
             }
-            
+
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
         }
@@ -403,17 +404,17 @@ namespace KomlyakovD_LR3_project
         {
             Console.Clear();
             Console.WriteLine("=== Класс Rectangle ===\n");
-            
+
             try
             {
                 Console.WriteLine("Введите ширину и высоту прямоугольника (от 1 до 100):");
                 string[] input = Console.ReadLine().Split();
-                
+
                 int width = int.Parse(input[0]);
                 int height = int.Parse(input[1]);
-                
+
                 Rectangle rect = new Rectangle(width, height);
-                
+
                 Console.WriteLine($"\nПлощадь: {rect.GetArea()}");
                 Console.WriteLine($"Периметр: {rect.GetPerimeter()}");
                 Console.WriteLine($"Описание: {rect.ToString()}");
@@ -422,7 +423,7 @@ namespace KomlyakovD_LR3_project
             {
                 Console.WriteLine("Ошибка ввода данных");
             }
-            
+
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
         }
@@ -431,23 +432,23 @@ namespace KomlyakovD_LR3_project
         {
             public int Width { get; set; }
             public int Height { get; set; }
-            
+
             public Rectangle(int width, int height)
             {
                 Width = width;
                 Height = height;
             }
-            
+
             public int GetArea()
             {
                 return Width * Height;
             }
-            
+
             public int GetPerimeter()
             {
                 return 2 * (Width + Height);
             }
-            
+
             public override string ToString()
             {
                 return $"Rectangle {Width}x{Height}";
@@ -458,16 +459,16 @@ namespace KomlyakovD_LR3_project
         {
             Console.Clear();
             Console.WriteLine("=== Минимальный вес еды ===\n");
-            
+
             try
             {
                 Console.WriteLine("Введите размеры таблицы N и M (от 1 до 20):");
                 string[] size = Console.ReadLine().Split();
                 int N = int.Parse(size[0]);
                 int M = int.Parse(size[1]);
-                
+
                 int[,] grid = new int[N, M];
-                
+
                 Console.WriteLine($"Введите {N} строк по {M} чисел:");
                 for (int i = 0; i < N; i++)
                 {
@@ -477,20 +478,20 @@ namespace KomlyakovD_LR3_project
                         grid[i, j] = int.Parse(row[j]);
                     }
                 }
-                
+
                 int[,] dp = new int[N, M];
                 dp[0, 0] = grid[0, 0];
-                
+
                 for (int j = 1; j < M; j++)
                 {
                     dp[0, j] = dp[0, j - 1] + grid[0, j];
                 }
-                
+
                 for (int i = 1; i < N; i++)
                 {
                     dp[i, 0] = dp[i - 1, 0] + grid[i, 0];
                 }
-                
+
                 for (int i = 1; i < N; i++)
                 {
                     for (int j = 1; j < M; j++)
@@ -498,14 +499,14 @@ namespace KomlyakovD_LR3_project
                         dp[i, j] = Math.Min(dp[i - 1, j], dp[i, j - 1]) + grid[i, j];
                     }
                 }
-                
+
                 Console.WriteLine($"\nМинимальный вес еды: {dp[N - 1, M - 1]}");
             }
             catch
             {
                 Console.WriteLine("Ошибка ввода данных");
             }
-            
+
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
         }
@@ -514,20 +515,20 @@ namespace KomlyakovD_LR3_project
         {
             Console.Clear();
             Console.WriteLine("=== Компоненты связности графа ===\n");
-            
+
             try
             {
                 Console.WriteLine("Введите количество вершин N и количество ребер M:");
                 string[] input = Console.ReadLine().Split();
                 int N = int.Parse(input[0]);
                 int M = int.Parse(input[1]);
-                
+
                 List<int>[] graph = new List<int>[N + 1];
                 for (int i = 1; i <= N; i++)
                 {
                     graph[i] = new List<int>();
                 }
-                
+
                 Console.WriteLine($"Введите {M} ребер (номера вершин i и j через пробел):");
                 for (int k = 0; k < M; k++)
                 {
@@ -537,25 +538,25 @@ namespace KomlyakovD_LR3_project
                     graph[i].Add(j);
                     graph[j].Add(i);
                 }
-                
+
                 bool[] visited = new bool[N + 1];
                 List<List<int>> components = new List<List<int>>();
-                
+
                 for (int start = 1; start <= N; start++)
                 {
                     if (!visited[start])
                     {
                         List<int> component = new List<int>();
                         Queue<int> queue = new Queue<int>();
-                        
+
                         queue.Enqueue(start);
                         visited[start] = true;
-                        
+
                         while (queue.Count > 0)
                         {
                             int vertex = queue.Dequeue();
                             component.Add(vertex);
-                            
+
                             foreach (int neighbor in graph[vertex])
                             {
                                 if (!visited[neighbor])
@@ -565,14 +566,14 @@ namespace KomlyakovD_LR3_project
                                 }
                             }
                         }
-                        
+
                         components.Add(component);
                     }
                 }
-                
+
                 Console.WriteLine($"\nКоличество компонент связности: {components.Count}");
                 Console.WriteLine("\nКомпоненты связности:");
-                
+
                 for (int i = 0; i < components.Count; i++)
                 {
                     Console.WriteLine($"Компонента {i + 1}:");
@@ -585,8 +586,8 @@ namespace KomlyakovD_LR3_project
             {
                 Console.WriteLine("Ошибка ввода данных");
             }
-            
-            Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
+
+            Console.WriteLine("\nНажмите любую клавишу для возврата в меню ...");
             Console.ReadKey();
         }
 
@@ -594,22 +595,22 @@ namespace KomlyakovD_LR3_project
         {
             Console.Clear();
             Console.WriteLine("=== Кафе и купоны ===\n");
-            
+
             try
             {
                 Console.WriteLine("Введите количество дней N (0-100):");
                 int N = int.Parse(Console.ReadLine());
-                
+
                 int[] prices = new int[N + 1];
                 for (int i = 1; i <= N; i++)
                 {
                     Console.Write($"День {i}: ");
                     prices[i] = int.Parse(Console.ReadLine());
                 }
-                
+
                 int[,] dp = new int[N + 2, N + 2];
                 bool[,] used = new bool[N + 2, N + 2];
-                
+
                 for (int i = 0; i <= N + 1; i++)
                 {
                     for (int j = 0; j <= N + 1; j++)
@@ -617,9 +618,9 @@ namespace KomlyakovD_LR3_project
                         dp[i, j] = int.MaxValue / 2;
                     }
                 }
-                
+
                 dp[0, 0] = 0;
-                
+
                 for (int i = 1; i <= N; i++)
                 {
                     for (int j = 0; j <= i; j++)
@@ -631,7 +632,7 @@ namespace KomlyakovD_LR3_project
                                 dp[i, j - 1] = dp[i - 1, j];
                                 used[i, j - 1] = true;
                             }
-                            
+
                             if (prices[i] > 100)
                             {
                                 if (dp[i - 1, j] + prices[i] < dp[i, j + 1])
@@ -651,10 +652,10 @@ namespace KomlyakovD_LR3_project
                         }
                     }
                 }
-                
+
                 int minCost = int.MaxValue;
                 int bestK1 = -1;
-                
+
                 for (int j = 0; j <= N; j++)
                 {
                     if (dp[N, j] < minCost || (dp[N, j] == minCost && j > bestK1))
@@ -663,10 +664,10 @@ namespace KomlyakovD_LR3_project
                         bestK1 = j;
                     }
                 }
-                
+
                 List<int> couponDays = new List<int>();
                 int currentJ = bestK1;
-                
+
                 for (int i = N; i >= 1; i--)
                 {
                     if (used[i, currentJ])
@@ -682,13 +683,13 @@ namespace KomlyakovD_LR3_project
                         }
                     }
                 }
-                
+
                 couponDays.Sort();
-                
+
                 Console.WriteLine($"\nМинимальная сумма: {minCost}");
                 Console.WriteLine($"Неиспользовано купонов: {bestK1}");
                 Console.WriteLine($"Использовано купонов: {couponDays.Count}");
-                
+
                 if (couponDays.Count > 0)
                 {
                     Console.WriteLine("Дни использования купонов:");
@@ -703,7 +704,7 @@ namespace KomlyakovD_LR3_project
             {
                 Console.WriteLine("Ошибка ввода данных");
             }
-            
+
             Console.WriteLine("\nНажмите любую клавишу для возврата в меню...");
             Console.ReadKey();
         }
